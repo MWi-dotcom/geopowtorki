@@ -29,7 +29,7 @@ describe('materiał', () => {
   it('partie obejmują wszystkie kontynenty', () => {
     expect(new Set(DECKS.map((d) => d.continents![0])).size).toBe(7);
   });
-  it('wysokości szczytów zgodne z materiałem nauczyciela', () => {
+  it('wysokości szczytów zgodne z materiałem (z poprawkami uzgodnionymi z autorem)', () => {
     const h = Object.fromEntries(FEATURES.flatMap((f) => f.facts.filter((x) => x.id === 'wysokosc').map((x) => [f.id, Number(x.a)])));
     expect(h).toMatchObject({
       'eu-g-alpy': 4806,
@@ -37,7 +37,8 @@ describe('materiał', () => {
       'af-w-wschodnioafrykanska': 5895,
       'au-g-wododzialowe': 2230,
       'an-g-ellswortha': 4892,
-      'np-g-alaska': 6194,
+      'np-g-alaska': 6190, // dawniej 6194 – uznawane jako alias
+      'az-g-karakorum': 8611,
       'sp-g-andy': 6962,
     });
   });

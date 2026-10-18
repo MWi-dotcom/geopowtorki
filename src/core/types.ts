@@ -45,6 +45,8 @@ export interface Fact {
   tolerance?: number;
   needsVerification?: boolean;
   note?: string;
+  /** Pełny tekst poprawnej odpowiedzi do wyświetlenia (zastępuje a + jednostkę), np. „6190 m n.p.m. (dawniej 6194 m)”. */
+  display?: string;
   /** Nazwa punktu wysokościowego w Natural Earth – skrypt danych dopisze współrzędne. */
   peakRef?: string;
 }

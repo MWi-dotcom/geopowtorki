@@ -83,7 +83,6 @@ const country = (q: string, c: string, aliases: string[] = [], opts: Partial<Fac
   ...opts,
 });
 
-const NV_TEACHER = 'Element oznaczony przez nauczyciela jako [do weryfikacji].';
 
 // =====================================================================
 // EUROPA
@@ -131,8 +130,14 @@ group('europa', 'rzeki', [
     id: 'eu-r-dunaj',
     namePl: 'Dunaj',
     src: riv('Danube'),
-    facts: [city('Dunaj', 'Wiedeń'), city('Dunaj', 'Bratysława'), city('Dunaj', 'Budapeszt'), city('Dunaj', 'Belgrad')],
-    note: 'W materiale nauczyciela przy Dunaju jest niejasny zapis „Buka*” – nie został zamieniony na pytanie (patrz docs/ROZBIEZNOSCI.md).',
+    facts: [
+      city('Dunaj', 'Wiedeń'),
+      city('Dunaj', 'Bratysława'),
+      city('Dunaj', 'Budapeszt'),
+      city('Dunaj', 'Belgrad'),
+      { id: 'ujscie', type: 'text', q: 'Do jakiego morza uchodzi Dunaj?', a: 'Morze Czarne', aliases: ['Czarne', 'Morza Czarnego', 'Czarnego'] },
+    ],
+    note: 'Dunaj omija Bukareszt od południa (Bukareszt nie leży nad Dunajem) i uchodzi deltą do Morza Czarnego.',
   },
   { id: 'eu-r-ural', namePl: 'Ural', label: 'Ural (rzeka)', aliases: ['rzeka Ural'], src: riv('Ural') },
   { id: 'eu-r-dniepr', namePl: 'Dniepr', aliases: ['Dnipro'], src: riv('Dnipro'), facts: [city('Dniepr', 'Kijów', ['Dnipro'])] },
@@ -233,9 +238,8 @@ group('azja', 'gory', [
     id: 'az-g-pamir',
     namePl: 'Pamir',
     src: reg('PAMIRS'),
-    needsVerification: true,
-    note: `${NV_TEACHER} Pamir leży głównie w Tadżykistanie; obejmuje też Kirgistan, Afganistan i Chiny.`,
-    facts: [country('W jakim państwie leży Pamir (wg materiału)?', 'Kirgistan', [], { needsVerification: true })],
+    note: 'Pamir leży głównie w Tadżykistanie; obejmuje też Kirgistan, Afganistan i Chiny.',
+    facts: [country('W jakim państwie leży głównie Pamir?', 'Tadżykistan', ['Kirgistan'])],
   },
   {
     id: 'az-g-hindukusz',
@@ -247,21 +251,29 @@ group('azja', 'gory', [
     id: 'az-g-karakorum',
     namePl: 'Karakorum',
     src: reg('KARAKORAM RA.'),
-    needsVerification: true,
-    note: `${NV_TEACHER} Karakorum leży w Pakistanie, Indiach (Kaszmir) i Chinach – nie w Tadżykistanie (tam jest Pamir).`,
+    note:
+      'Karakorum leży na styku trzech państw: Pakistanu (większość obszaru, m.in. Gilgit-Baltistan), Chin (Sinkiang i Tybet) i Indii (Ladakh oraz sporny Aksai Chin). ' +
+      'To drugie najwyższe pasmo świata (po Himalajach). K2 (8611 m n.p.m.) – najwyższy szczyt Karakorum i drugi szczyt Ziemi – leży na granicy Pakistanu i Chin. ' +
+      'Cztery ośmiotysięczniki: K2, Gaszerbrum I, Gaszerbrum II i Broad Peak.',
     facts: [
-      countries('W jakich państwach leży Karakorum (wg materiału)?', ['Tadżykistan', 'Chiny'], { needsVerification: true }),
+      countries('W jakich państwach leży Karakorum?', ['Pakistan', 'Chiny', 'Indie']),
       { id: 'szczyt', type: 'text', q: 'Najwyższy szczyt Karakorum?', a: 'K2', aliases: ['Czogori'], peakRef: 'K2' },
+      { id: 'wysokosc', type: 'number', q: 'Wysokość szczytu K2 (m n.p.m.)?', a: '8611', unit: 'm n.p.m.', tolerance: heightTol(8611), peakRef: 'K2' },
     ],
   },
   {
     id: 'az-g-himalaje',
     namePl: 'Himalaje',
     src: reg('HIMALAYAS'),
-    needsVerification: true,
-    note: `${NV_TEACHER} Himalaje leżą także w Indiach, Chinach i Pakistanie. Mount Everest: 8848,86 m n.p.m. (pomiar Chin i Nepalu z 2020 r.) – 8848 m jest poprawne po zaokrągleniu w dół.`,
+    note:
+      'Nepal – większość najwyższych szczytów (w tym południowa strona Mount Everestu i 8 z 14 ośmiotysięczników). ' +
+      'Indie – południowe podnóża Himalajów oraz m.in. Sikkim, Kaszmir, Ladakh i Garhwal. ' +
+      'Chiny (Tybet) – północne stoki i północna strona Mount Everestu na Wyżynie Tybetańskiej. ' +
+      'Pakistan – najbardziej wysunięta na zachód część łańcucha (z masywem Nanga Parbat). ' +
+      'Bhutan – w całości w obrębie Himalajów Wschodnich. ' +
+      'Mount Everest: 8848,86 m n.p.m. (pomiar z 2020 r.) – 8848 m po zaokrągleniu.',
     facts: [
-      countries('W jakich państwach leżą Himalaje (wg materiału)?', ['Nepal', 'Bhutan']),
+      countries('W jakich państwach leżą Himalaje?', ['Nepal', 'Indie', 'Chiny', 'Pakistan', 'Bhutan']),
       ...peak('Himalajów (i Ziemi)', 'Mount Everest', 8848, 'Mount Everest', {}, ['Everest', 'Czomolungma']),
     ],
   },
@@ -574,10 +586,12 @@ group('ameryka-pn', 'gory', [
     namePl: 'Góry Alaska',
     aliases: ['Alaska Range', 'Pasmo Alaska'],
     src: reg('ALASKA RANGE'),
-    needsVerification: true,
     note:
-      `${NV_TEACHER} 6194 m to dawna wartość; pomiar z 2015 r. podaje ok. 6190 m (20 310 stóp). W 2025 r. władze federalne USA przywróciły nazwę Mount McKinley; stan Alaska używa nazwy Denali. Aplikacja akceptuje obie nazwy i obie wysokości (tolerancja).`,
-    facts: peak('Gór Alaska (i Ameryki Północnej)', 'Denali', 6194, 'Denali', {}, ['McKinley', 'Mount McKinley', 'Mt McKinley']),
+      'Wysokość Denali: 6190 m n.p.m. wg pomiaru z 2015 r.; w starszych źródłach 6194 m – obie wartości są zaliczane. W 2025 r. władze federalne USA przywróciły nazwę Mount McKinley; stan Alaska używa nazwy Denali. Obie nazwy są zaliczane.',
+    facts: peak('Gór Alaska (i Ameryki Północnej)', 'Denali', 6190, 'Denali', { display: '6190 m n.p.m. (dawniej 6194 m)', aliases: ['6194'] }, ['McKinley', 'Mount McKinley', 'Mt McKinley']).map((f) =>
+      // display dotyczy tylko pytania o wysokość, nie o nazwę szczytu
+      f.id === 'szczyt' ? { ...f, display: undefined, aliases: ['McKinley', 'Mount McKinley', 'Mt McKinley'] } : f,
+    ),
   },
   { id: 'np-g-appalachy', namePl: 'Appalachy', src: reg('APPALACHIAN MTS.') },
 ]);

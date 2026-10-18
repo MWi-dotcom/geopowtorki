@@ -402,8 +402,7 @@ export function SessionScreen({ params, dark }: { params: URLSearchParams; dark:
                   <>
                     {fact.type === 'number' ? 'Dokładnie: ' : 'Odpowiedź: '}
                     <strong>
-                      {r.canonical}
-                      {fact.unit ? ` ${fact.unit}` : ''}
+                      {fact.display ?? `${r.canonical}${fact.unit ? ` ${fact.unit}` : ''}`}
                     </strong>
                     .{r.missing?.length ? <> Brakuje: {r.missing.join(', ')}.</> : null}
                     {fact.needsVerification && <span className="mt-1 block text-sm text-ink-soft">Wersja z materiału nauczyciela – do weryfikacji. {feature.note}</span>}
@@ -466,8 +465,7 @@ function FactsList({ feature }: { feature: Feature }) {
         <li key={f.id} className="flex gap-2">
           <span className="text-ink-soft">{f.q.replace(/\?$/, '')}:</span>
           <strong className="font-semibold">
-            {f.a.replace(/;/g, ',')}
-            {f.unit ? ` ${f.unit}` : ''}
+            {f.display ?? `${f.a.replace(/;/g, ',')}${f.unit ? ` ${f.unit}` : ''}`}
           </strong>
         </li>
       ))}

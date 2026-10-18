@@ -277,6 +277,8 @@ export function matchFact(input: string, fact: Fact): FactResult {
     const delta = v - target;
     const tol = fact.tolerance ?? 0;
     if (delta === 0) return { kind: 'exact', correct: true, canonical: fact.a, delta };
+    // inne uznane wartości (np. starszy pomiar wysokości) – liczone jako dokładne
+    if ((fact.aliases ?? []).some((a) => Number(a) === v)) return { kind: 'exact', correct: true, canonical: fact.a, delta };
     if (Math.abs(delta) <= tol) return { kind: 'typo', correct: true, canonical: fact.a, delta };
     return { kind: 'wrong', correct: false, canonical: fact.a, delta };
   }

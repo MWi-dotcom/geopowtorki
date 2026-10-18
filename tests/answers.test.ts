@@ -90,3 +90,17 @@ describe('fakty', () => {
     expect(matchFact('Wisła', f).correct).toBe(false);
   });
 });
+
+describe('liczby z wartościami alternatywnymi (Denali)', () => {
+  it('6190 i 6194 są dokładne, 6170 – w tolerancji', async () => {
+    const { FEATURE_BY_ID } = await import('../src/data/material');
+    const f = Object.values(FEATURE_BY_ID).find((x) => x.namePl === 'Góry Alaska')!;
+    const h = f.facts.find((x) => x.id === 'wysokosc')!;
+    expect(matchFact('6190', h).kind).toBe('exact');
+    expect(matchFact('6194 m n.p.m.', h).kind).toBe('exact');
+    expect(matchFact('6170', h).correct).toBe(true);
+    const name = f.facts.find((x) => x.id === 'szczyt')!;
+    expect(matchFact('Mount McKinley', name).correct).toBe(true);
+    expect(name.display).toBeUndefined();
+  });
+});
