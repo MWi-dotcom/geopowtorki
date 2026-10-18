@@ -21,6 +21,9 @@ działa w przeglądarce na telefonie i komputerze, **bez logowania i offline**
     skali (punkt – promień, rzeka – bufor wokół linii, obszar – trafienie w
     wielokąt z małym buforem). Po odpowiedzi „przelot” do obiektu i odległość
     od kliknięcia.
+    Tolerancję można zmienić w Ustawieniach (mała / standardowa / duża / bardzo
+    duża); na ekranie dotykowym doliczany jest margines na palec, liczony w
+    pikselach przy bieżącym przybliżeniu mapy.
   - *Co to jest?* – podświetlony obiekt, wybór z 4 opcji (klawisze 1–4) albo
     wpisanie nazwy; dystraktory z tej samej kategorii i regionu.
   - *Mapa konturowa* – jak na kartkówce: ponumerowane obiekty, wynik i omówienie na końcu.

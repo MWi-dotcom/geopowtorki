@@ -60,8 +60,38 @@ export function distanceToGeometry(click: Position, geom: Geometry): { km: numbe
   }
 }
 
-export function gradeClick(click: Position, geom: Geometry, type: GeometryType, regionKm: number, approx = false): ClickResult {
-  const tol = toleranceKm(type, regionKm, approx);
+/** Poziomy tolerancji trafienia wybierane w Ustawieniach. */
+export type HitTolerance = 'small' | 'normal' | 'large' | 'xlarge';
+
+/**
+ * factor  – mnożnik tolerancji „geograficznej” (zależnej od wielkości regionu),
+ * fingerPx – margines w pikselach ekranu (na ekranie dotykowym; myszą połowa):
+ *            przeliczany na km przy bieżącym przybliżeniu mapy, więc po
+ *            przybliżeniu trafia się łatwiej – jak przy wskazywaniu palcem na mapie.
+ */
+export const HIT_TOLERANCE: Record<HitTolerance, { label: string; factor: number; fingerPx: number }> = {
+  small: { label: 'Mała – jak na sprawdzianie', factor: 0.75, fingerPx: 8 },
+  normal: { label: 'Standardowa', factor: 1, fingerPx: 16 },
+  large: { label: 'Duża', factor: 1.5, fingerPx: 26 },
+  xlarge: { label: 'Bardzo duża', factor: 2.2, fingerPx: 38 },
+};
+
+/** Margines palca/kursora w km dla danej skali mapy. */
+export function pointerMarginKm(level: HitTolerance, kmPerPx: number, touch: boolean): number {
+  if (!(kmPerPx > 0)) return 0;
+  const px = HIT_TOLERANCE[level].fingerPx * (touch ? 1 : 0.5);
+  return px * kmPerPx;
+}
+
+export interface ClickOptions {
+  /** mnożnik tolerancji (domyślnie 1) */
+  factor?: number;
+  /** minimalna tolerancja w km – np. margines palca przy bieżącym przybliżeniu */
+  minKm?: number;
+}
+
+export function gradeClick(click: Position, geom: Geometry, type: GeometryType, regionKm: number, approx = false, opts: ClickOptions = {}): ClickResult {
+  const tol = Math.max(toleranceKm(type, regionKm, approx) * (opts.factor ?? 1), opts.minKm ?? 0);
   const { km, nearest } = distanceToGeometry(click, geom);
   return { correct: km <= tol, distanceKm: km, toleranceKm: tol, nearest };
 }

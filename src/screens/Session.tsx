@@ -5,7 +5,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Position } from 'geojson';
 import { AnswerIndex, matchFact, type FactResult, type MatchResult } from '../core/answers';
-import { gradeClick, ratingFromOutcome, type Outcome } from '../core/grading';
+import { gradeClick, HIT_TOLERANCE, pointerMarginKm, ratingFromOutcome, type Outcome } from '../core/grading';
 import { applyReview, newState, practiceUpdatesSchedule, Rating, skillKind, State, stateKey, type ReviewState } from '../core/scheduler';
 import {
   buildDailyQueue,
@@ -26,7 +26,7 @@ import { db, loadStates, recordConfusion, type LogMode } from '../db';
 import { GeoMap, type MapApi } from '../map/GeoMap';
 import { ensureFeatures, GEO_META, getGeometry, PEAKS } from '../lib/geo';
 import { go } from '../lib/router';
-import { getSettings, type Settings } from '../lib/settings';
+import { getSettings, isTouchPointer, type Settings } from '../lib/settings';
 import { useMapPadding } from '../lib/useMapPadding';
 import { FeatureThumb } from '../components/FeatureThumb';
 import { Button, Icon, Kbd, LinkButton, Verdict, formatDuration, plural } from '../components/ui';
@@ -241,13 +241,15 @@ export function SessionScreen({ params, dark }: { params: URLSearchParams; dark:
 
   // --- „Wskaż na mapie” ---
   const onMapClick = useCallback(
-    (p: Position) => {
+    (p: Position, kmPerPx: number) => {
       if (!item || item.kind !== 'question' || item.skill !== 'locate' || answered || !feature) return;
+      const level = settings?.hitTolerance ?? 'normal';
+      const clickOpts = { factor: HIT_TOLERANCE[level].factor, minKm: pointerMarginKm(level, kmPerPx, isTouchPointer()) };
       const geom = getGeometry(feature.id);
       const meta = GEO_META[feature.id];
       if (!geom) return;
       const regionKm = REGION_KM[feature.continent];
-      const res = gradeClick(p, geom, meta.t, regionKm, meta.approx);
+      const res = gradeClick(p, geom, meta.t, regionKm, meta.approx, clickOpts);
       const ms = Date.now() - shownAt.current;
       // w co kliknięto zamiast tego? (ta sama kategoria, ten sam kontynent)
       let other: Feature | undefined;
@@ -256,7 +258,7 @@ export function SessionScreen({ params, dark }: { params: URLSearchParams; dark:
           .map((f) => {
             const g = getGeometry(f.id);
             const m = GEO_META[f.id];
-            return g ? { f, r: gradeClick(p, g, m.t, regionKm, m.approx), size: m.size } : null;
+            return g ? { f, r: gradeClick(p, g, m.t, regionKm, m.approx, clickOpts), size: m.size } : null;
           })
           .filter((x): x is NonNullable<typeof x> => !!x && x.r.correct)
           .sort((a, b) => a.r.distanceKm - b.r.distanceKm || a.size - b.size);
@@ -291,7 +293,7 @@ export function SessionScreen({ params, dark }: { params: URLSearchParams; dark:
       });
       commit({ correct: res.correct, ms }, { distanceKm: Math.round(res.distanceKm * 10) / 10, confusedWith: other?.id });
     },
-    [item, answered, feature, commit],
+    [item, answered, feature, commit, settings],
   );
 
   // --- klawiatura: Enter = dalej ---

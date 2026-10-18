@@ -1,5 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db';
+import type { HitTolerance } from '../core/grading';
 
 export interface Settings {
   /** limit nowych obiektów dziennie */
@@ -15,6 +16,8 @@ export interface Settings {
   choiceForNew: boolean;
   /** animacje mapy */
   motion: boolean;
+  /** tolerancja trafienia w ćwiczeniu „Wskaż na mapie” */
+  hitTolerance: HitTolerance;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -25,6 +28,7 @@ export const DEFAULT_SETTINGS: Settings = {
   scope: ['europa:*'],
   choiceForNew: true,
   motion: true,
+  hitTolerance: 'normal',
 };
 
 export function useSettings(): Settings {
@@ -50,5 +54,8 @@ export function applyTheme(theme: Settings['theme']) {
   document.documentElement.classList.toggle('dark', dark);
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0f1d24' : '#eef2ee');
 }
+
+/** Ekran dotykowy jako główne urządzenie wskazujące (telefon, tablet). */
+export const isTouchPointer = () => matchMedia('(pointer: coarse)').matches;
 
 export const prefersReducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;

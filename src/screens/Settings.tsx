@@ -1,4 +1,5 @@
 import { useLiveQuery } from 'dexie-react-hooks';
+import { HIT_TOLERANCE, type HitTolerance } from '../core/grading';
 import { APP_VERSION, AUTHOR, copyrightLine } from '../data/about';
 import { useState } from 'react';
 import { FEATURES, FEATURE_BY_ID } from '../data/material';
@@ -30,6 +31,24 @@ export function SettingsScreen() {
               <option value={0.95}>Mocniej – więcej powtórek (95%)</option>
             </select>
             <span className="mt-1 block text-sm text-ink-soft">Prawdopodobieństwo, że w dniu powtórki obiekt będzie jeszcze pamiętany.</span>
+          </label>
+          <label className="block">
+            <span className="font-medium">Tolerancja trafienia na mapie</span>
+            <select
+              value={s.hitTolerance}
+              onChange={(e) => setSetting('hitTolerance', e.target.value as HitTolerance)}
+              className="mt-1 block min-h-11 w-full rounded-xl border border-line bg-paper px-3"
+            >
+              {(Object.keys(HIT_TOLERANCE) as HitTolerance[]).map((k) => (
+                <option key={k} value={k}>
+                  {HIT_TOLERANCE[k].label}
+                </option>
+              ))}
+            </select>
+            <span className="mt-1 block text-sm text-ink-soft">
+              Jak daleko od obiektu może trafić kliknięcie lub dotknięcie w ćwiczeniu „Wskaż na mapie”. Na ekranie dotykowym doliczany jest margines na
+              palec – po przybliżeniu mapy łatwiej trafić w małe obiekty.
+            </span>
           </label>
           <Toggle label="Nowe obiekty: wybór z 4 odpowiedzi zamiast wpisywania" on={s.choiceForNew} onChange={(v) => setSetting('choiceForNew', v)} />
         </div>

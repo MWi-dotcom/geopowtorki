@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { Rating } from 'ts-fsrs';
-import { gradeClick, ratingFromOutcome, toleranceKm } from '../src/core/grading';
+import type { Point } from 'geojson';
+import { gradeClick, HIT_TOLERANCE, pointerMarginKm, ratingFromOutcome, toleranceKm } from '../src/core/grading';
 
 describe('ocena kliknięć', () => {
   const square = { type: 'Polygon' as const, coordinates: [[[10, 50], [12, 50], [12, 52], [10, 52], [10, 50]]] };
@@ -47,5 +48,26 @@ describe('ocena FSRS z odpowiedzi', () => {
     expect(ratingFromOutcome({ correct: true, ms: 2000 }, 'locate')).toBe(Rating.Easy);
     expect(ratingFromOutcome({ correct: true, ms: 20000 }, 'locate')).toBe(Rating.Good);
     expect(ratingFromOutcome({ correct: true, ms: 1000, multipleChoice: true }, 'name')).toBe(Rating.Good);
+  });
+});
+
+describe('tolerancja trafienia (ustawienia + margines palca)', () => {
+  const pt: Point = { type: 'Point', coordinates: [20, 50] };
+  it('mnożnik zwiększa tolerancję', () => {
+    const base = gradeClick([20, 50], pt, 'point', 5500).toleranceKm;
+    expect(gradeClick([20, 50], pt, 'point', 5500, false, { factor: 2 }).toleranceKm).toBeCloseTo(base * 2);
+  });
+  it('margines palca działa jako minimalna tolerancja', () => {
+    // ~200 km od punktu – poza tolerancją bazową (137,5 km), ale w marginesie palca
+    const click: [number, number] = [22.8, 50];
+    expect(gradeClick(click, pt, 'point', 5500).correct).toBe(false);
+    const minKm = pointerMarginKm('normal', 15, true); // 16 px × 15 km/px = 240 km
+    expect(minKm).toBe(240);
+    expect(gradeClick(click, pt, 'point', 5500, false, { minKm }).correct).toBe(true);
+  });
+  it('myszą margines jest o połowę mniejszy; brak skali = brak marginesu', () => {
+    expect(pointerMarginKm('normal', 10, false)).toBe(80);
+    expect(pointerMarginKm('large', 0, true)).toBe(0);
+    expect(HIT_TOLERANCE.xlarge.fingerPx).toBeGreaterThan(HIT_TOLERANCE.small.fingerPx);
   });
 });

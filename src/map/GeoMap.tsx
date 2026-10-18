@@ -13,6 +13,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 // MapLibre v6 ładuje worker jako osobny moduł ES; Vite musi go zbundlować
 // i podać adres jawnie, inaczej po buildzie mapa się nie wczytuje.
 import mlWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
+import { distance } from '@turf/turf';
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import type { Feature as GJFeature, Position } from 'geojson';
 import type { ContinentId } from '../core/types';
@@ -50,7 +51,8 @@ interface Props {
   featureIds: string[];
   progress?: Record<string, Mastery>;
   padding?: Partial<Padding>;
-  onMapClick?: (p: Position) => void;
+  /** kmPerPx – skala mapy w miejscu kliknięcia (do marginesu palca) */
+  onMapClick?: (p: Position, kmPerPx: number) => void;
   onFeatureClick?: (id: string | null) => void;
   motion?: boolean;
   dark: boolean;
@@ -118,7 +120,10 @@ export const GeoMap = forwardRef<MapApi, Props>(function GeoMap(props, ref) {
     map.on('click', (e) => {
       const p = propsRef.current;
       if (p.mode === 'exercise' && p.onMapClick) {
-        p.onMapClick([e.lngLat.lng, e.lngLat.lat]);
+        // skala w miejscu kliknięcia: odległość do punktu 10 px obok
+        const b = map.unproject([e.point.x + 10, e.point.y]);
+        const kmPerPx = distance([e.lngLat.lng, e.lngLat.lat], [b.lng, b.lat], { units: 'kilometers' }) / 10;
+        p.onMapClick([e.lngLat.lng, e.lngLat.lat], kmPerPx);
         return;
       }
       if (p.onFeatureClick) {
