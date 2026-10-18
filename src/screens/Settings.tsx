@@ -1,9 +1,10 @@
 import { useLiveQuery } from 'dexie-react-hooks';
-import { HIT_TOLERANCE, type HitTolerance } from '../core/grading';
+import { HIT_TOLERANCE, toleranceKm, type HitTolerance } from '../core/grading';
 import { APP_VERSION, AUTHOR, copyrightLine } from '../data/about';
 import { useState } from 'react';
 import { FEATURES, FEATURE_BY_ID } from '../data/material';
-import { DECKS, deckFromId } from '../data/meta';
+import { CONTINENTS, DECKS, deckFromId, REGION_KM } from '../data/meta';
+import type { ContinentId } from '../core/types';
 import { db, exportAll, importAll, resetAll } from '../db';
 import { setSetting, useSettings, type Settings } from '../lib/settings';
 import { Button, Icon, LinkButton, Page, Section } from '../components/ui';
@@ -45,11 +46,8 @@ export function SettingsScreen() {
                 </option>
               ))}
             </select>
-            <span className="mt-1 block text-sm text-ink-soft">
-              Jak daleko od obiektu może trafić kliknięcie lub dotknięcie w ćwiczeniu „Wskaż na mapie”. Na ekranie dotykowym doliczany jest margines na
-              palec – po przybliżeniu mapy łatwiej trafić w małe obiekty.
-            </span>
           </label>
+          <ToleranceTable level={s.hitTolerance} scope={s.scope} />
           <Toggle label="Nowe obiekty: wybór z 4 odpowiedzi zamiast wpisywania" on={s.choiceForNew} onChange={(v) => setSetting('choiceForNew', v)} />
         </div>
       </Section>
@@ -281,6 +279,55 @@ function VideoManager() {
           ))}
         </ul>
       )}
+    </div>
+  );
+}
+
+/**
+ * Konkretne wartości tolerancji dla wybranego poziomu i kontynentu – zamiast
+ * samych słów „standardowa / duża”. Liczone tą samą funkcją co ocena kliknięć.
+ */
+function ToleranceTable({ level, scope }: { level: HitTolerance; scope: string[] }) {
+  const first = scope.map((d) => d.split(':')[0]).find((c) => c !== '*') as ContinentId | undefined;
+  const [cont, setCont] = useState<ContinentId>(first ?? 'europa');
+  const { factor, fingerPx } = HIT_TOLERANCE[level];
+  const R = REGION_KM[cont];
+  const km = (t: 'point' | 'line' | 'area', approx = false) => Math.round(toleranceKm(t, R, approx) * factor);
+  const rows: [string, string, string][] = [
+    ['Obszary', 'góry, wyżyny, niziny, kotliny, jeziora, półwyspy, wyspy, morza, ziemie, lodowce', `${km('area')} km od granicy`],
+    ['Obszary przybliżone', 'obiekty zaznaczone na mapie okręgiem (np. część nizin)', `${km('area', true)} km od okręgu`],
+    ['Rzeki', 'odległość od linii rzeki', `${km('line')} km od linii`],
+    ['Punkty', 'przylądki, małe wyspy', `${km('point')} km od punktu`],
+  ];
+  return (
+    <div className="rounded-xl bg-sunken p-3 text-sm">
+      <div className="mb-1 flex flex-wrap items-center gap-2">
+        <span className="text-ink-soft">Zaliczone trafienie dla:</span>
+        <select value={cont} onChange={(e) => setCont(e.target.value as ContinentId)} className="min-h-9 rounded-lg border border-line bg-surface px-2" aria-label="Kontynent">
+          {CONTINENTS.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <p className="mb-1 text-ink-soft">Kliknięcie wewnątrz obszaru zawsze się liczy; poza nim – do podanej odległości.</p>
+      <dl>
+        {rows.map(([name, desc, val]) => (
+          <div key={name} className="border-t border-line py-1.5 first:border-t-0">
+            <div className="flex items-baseline justify-between gap-3">
+              <dt className="font-medium">{name}</dt>
+              <dd className="text-right font-semibold">{val}</dd>
+            </div>
+            <dd className="text-xs text-ink-soft">{desc}</dd>
+          </div>
+        ))}
+      </dl>
+      <p className="mt-2 text-ink-soft">
+        Na ekranie dotykowym trafienie liczy się też wtedy, gdy obiekt jest do <strong>{fingerPx} px</strong> od palca (myszą {fingerPx / 2} px). Przy
+        oddalonej mapie to sporo kilometrów, po przybliżeniu – mniej, więc małe obiekty łatwiej wskazać po przybliżeniu. Większe kontynenty mają
+        większą tolerancję, bo ich mapa jest w mniejszej skali.
+      </p>
     </div>
   );
 }

@@ -70,10 +70,10 @@ export type HitTolerance = 'small' | 'normal' | 'large' | 'xlarge';
  *            przybliżeniu trafia się łatwiej – jak przy wskazywaniu palcem na mapie.
  */
 export const HIT_TOLERANCE: Record<HitTolerance, { label: string; factor: number; fingerPx: number }> = {
-  small: { label: 'Mała – jak na sprawdzianie', factor: 0.75, fingerPx: 8 },
-  normal: { label: 'Standardowa', factor: 1, fingerPx: 16 },
-  large: { label: 'Duża', factor: 1.5, fingerPx: 26 },
-  xlarge: { label: 'Bardzo duża', factor: 2.2, fingerPx: 38 },
+  small: { label: 'Mała – 75% standardowej', factor: 0.75, fingerPx: 8 },
+  normal: { label: 'Standardowa – 100%', factor: 1, fingerPx: 16 },
+  large: { label: 'Duża – 150% standardowej', factor: 1.5, fingerPx: 26 },
+  xlarge: { label: 'Bardzo duża – 220% standardowej', factor: 2.2, fingerPx: 38 },
 };
 
 /** Margines palca/kursora w km dla danej skali mapy. */
