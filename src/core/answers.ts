@@ -283,13 +283,15 @@ export function matchFact(input: string, fact: Fact): FactResult {
     return { kind: 'wrong', correct: false, canonical: fact.a, delta };
   }
   if (fact.type === 'set') {
-    const required = fact.a.split(';').map((s) => s.trim());
+    // element listy może mieć warianty: „RPA|Republika Południowej Afryki” (pierwszy – wzorcowy)
+    const requiredAlts = fact.a.split(';').map((s) => s.split('|').map((x) => x.trim()));
+    const required = requiredAlts.map((alts) => alts[0]);
     const parts = splitSet(input);
     const missing: string[] = [];
     let anyTypo = false;
     let anyAccent = false;
-    for (const req of required) {
-      const forms = factForms([req]);
+    for (const [ri, req] of required.entries()) {
+      const forms = factForms(requiredAlts[ri]);
       let found: MatchResult | null = null;
       for (const p of parts) {
         const r = matchForms(p, forms, req);

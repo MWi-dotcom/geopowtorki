@@ -161,7 +161,7 @@ export function BrowseScreen({ params, dark }: { params: URLSearchParams; dark: 
                   <li key={x.id}>
                     <span className="text-ink-soft">{x.q.replace(/\?$/, '')}:</span>{' '}
                     <strong>
-                      {x.display ?? `${x.a.replace(/;/g, ',')}${x.unit ? ` ${x.unit}` : ''}`}
+                      {x.display ?? `${x.a.replace(/\|[^;]*/g, '').replace(/;/g, ',')}${x.unit ? ` ${x.unit}` : ''}`}
                     </strong>
                     {x.needsVerification && <span className="text-warn"> (do weryfikacji)</span>}
                   </li>

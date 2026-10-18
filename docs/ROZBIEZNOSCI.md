@@ -18,12 +18,11 @@ aplikacji (Marcin Wyrzykowski, 18.10.2026).
 | Góra Kościuszki | 2230 m | 2230 m (wersja nauczyciela) i 2228 m (aktualny pomiar, Geoscience Australia) – obie zaliczane. |
 | Azja Mniejsza | przy Europie | W partiach **Europy i Azji**; opis półwyspu (Turcja, morza wokół, Bosfor i Dardanele). |
 | Kordyliery / Góry Skaliste / Góry Nadbrzeżne | osobne pozycje | Pozostają **osobnymi obiektami**. |
+| Kotlina Czadu | Czad, Niger | **Czad, Niger, Nigeria, Kamerun** (wszystkie wymagane). |
+| Kotlina Kalahari | Botswana | **Botswana, Namibia, RPA** (wszystkie wymagane). |
+| Góry Annamskie | Wietnam | **Wietnam i Laos** (oba wymagane). |
+| Przylądek Biały (N) | – | Północny kraniec Afryki w **Tunezji** (Ras al-Abjad), nie przylądek w Mauretanii. |
 
-## Pytania „wg materiału” (do ewentualnego sprawdzenia)
-
-- Kotlina Czadu – Czad, Niger (kotlina obejmuje też m.in. Nigerię i Kamerun).
-- Kotlina Kalahari – Botswana (sięga też do Namibii i RPA).
-- Góry Annamskie – Wietnam (także Laos).
 
 ## Geometrie
 

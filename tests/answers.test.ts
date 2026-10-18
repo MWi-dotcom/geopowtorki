@@ -111,3 +111,15 @@ describe('liczby z wartościami alternatywnymi (wersja nauczyciela + aktualny po
     expect(h.display).toContain('2020');
   });
 });
+
+describe('lista państw z wariantami nazw', () => {
+  it('Kalahari: „RPA” i „Republika Południowej Afryki” – obie formy, wszystkie państwa wymagane', () => {
+    const f = FEATURE_BY_ID['af-k-kalahari'].facts[0];
+    expect(matchFact('Botswana, Namibia, RPA', f).correct).toBe(true);
+    expect(matchFact('namibia i botswana oraz Republika Poludniowej Afryki', f).correct).toBe(true);
+    const r = matchFact('Botswana, Namibia', f);
+    expect(r.correct).toBe(false);
+    expect(r.missing).toEqual(['RPA']);
+    expect(r.canonical).toBe('Botswana, Namibia, RPA');
+  });
+});

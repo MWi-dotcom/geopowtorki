@@ -304,7 +304,7 @@ group('azja', 'gory', [
     id: 'az-g-annamskie',
     namePl: 'Góry Annamskie',
     src: reg('CHAÎNE ANNAMITIQUE'),
-    facts: [country('W jakim państwie leżą Góry Annamskie (wg materiału)?', 'Wietnam')],
+    facts: [countries('W jakich państwach leżą Góry Annamskie?', ['Wietnam', 'Laos'])],
   },
   { id: 'az-g-zagros', namePl: 'Zagros', aliases: ['Góry Zagros'], src: reg('ZAGROS MOUNTAINS'), facts: [country('W jakim państwie leży Zagros?', 'Iran')] },
   { id: 'az-g-elburs', namePl: 'Elburs', aliases: ['Góry Elburs', 'Alborz'], src: reg('ELBURZ MTS.'), facts: [country('W jakim państwie leży Elburs?', 'Iran')] },
@@ -434,7 +434,7 @@ group('afryka', 'wyzyny', [
   },
 ]);
 group('afryka', 'kotliny', [
-  { id: 'af-k-czadu', namePl: 'Kotlina Czadu', poly: SHAPES['af-k-czadu'], facts: [countries('W jakich państwach leży Kotlina Czadu (wg materiału)?', ['Czad', 'Niger'])] },
+  { id: 'af-k-czadu', namePl: 'Kotlina Czadu', poly: SHAPES['af-k-czadu'], facts: [countries('W jakich państwach leży Kotlina Czadu?', ['Czad', 'Niger', 'Nigeria', 'Kamerun'])] },
   { id: 'af-k-gornego-nilu', namePl: 'Kotlina Górnego Nilu', poly: SHAPES['af-k-gornego-nilu'], },
   {
     id: 'af-k-konga',
@@ -442,7 +442,7 @@ group('afryka', 'kotliny', [
     src: reg('CONGO BASIN'),
     facts: [country('W jakim państwie leży Kotlina Konga?', 'DRK', ['Demokratyczna Republika Konga', 'DR Konga', 'Kongo DR', 'Demokratyczna Republika Kongo'])],
   },
-  { id: 'af-k-kalahari', namePl: 'Kotlina Kalahari', aliases: ['Kalahari'], src: reg('KALAHARI DESERT'), facts: [country('W jakim państwie leży Kotlina Kalahari (wg materiału)?', 'Botswana')] },
+  { id: 'af-k-kalahari', namePl: 'Kotlina Kalahari', aliases: ['Kalahari'], src: reg('KALAHARI DESERT'), facts: [countries('W jakich państwach leży Kotlina Kalahari?', ['Botswana', 'Namibia', 'RPA|Republika Południowej Afryki'])] },
 ]);
 group('afryka', 'rzeki', [
   { id: 'af-r-nil', namePl: 'Nil', src: riv('Nile') },
