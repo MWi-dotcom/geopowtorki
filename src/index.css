@@ -1,0 +1,141 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Segoe UI Variable Text', 'Segoe UI', 'Avenir Next', system-ui, -apple-system, 'Noto Sans', sans-serif;
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-water: var(--water);
+  --color-water-deep: var(--water-deep);
+  --color-lowland: var(--lowland);
+  --color-upland: var(--upland);
+  --color-mountain: var(--mountain);
+  --color-ok: var(--ok);
+  --color-wrong: var(--wrong);
+  --color-warn: var(--warn);
+  --color-target: var(--target);
+  --color-new: var(--new);
+}
+
+:root {
+  --paper: #eef2ee;
+  --surface: #ffffff;
+  --sunken: #e3e9e5;
+  --ink: #18302f;
+  --ink-soft: #4c6462;
+  --line: #cfdad5;
+  --water: #2b6a8a;
+  --water-deep: #1d4f69;
+  --lowland: #4f7d5b;
+  --upland: #b98a4e;
+  --mountain: #7a5638;
+  --ok: #1f8a52;
+  --wrong: #c8443a;
+  --warn: #a87d00;
+  --target: #b0306a;
+  --new: #7d8a93;
+  color-scheme: light;
+}
+.dark {
+  --paper: #0f1d24;
+  --surface: #172a33;
+  --sunken: #12232b;
+  --ink: #e6eeec;
+  --ink-soft: #a3b6b8;
+  --line: #2a414b;
+  --water: #6fb3d6;
+  --water-deep: #a8d4ea;
+  --lowland: #7fb08a;
+  --upland: #d6ad74;
+  --mountain: #c79a72;
+  --ok: #4cc287;
+  --wrong: #f07a6f;
+  --warn: #e6bf3c;
+  --target: #e46ba2;
+  --new: #93a1aa;
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid var(--water);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Pasek hipsometryczny – „skala wysokości” z mapy fizycznej, motyw przewodni */
+.hypso {
+  background: linear-gradient(
+    90deg,
+    #6e9fbe 0 12%,
+    #8db7cf 12% 20%,
+    #5f8f5f 20% 36%,
+    #8fae6b 36% 50%,
+    #d9c98c 50% 62%,
+    #c69a5c 62% 76%,
+    #9b6a42 76% 90%,
+    #f2efe9 90% 100%
+  );
+}
+
+/* subtelne izohipsy w tle nagłówków */
+.contours {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='120' viewBox='0 0 240 120'%3E%3Cg fill='none' stroke='%2318302f' stroke-opacity='.07' stroke-width='1.2'%3E%3Cpath d='M-10 90 C40 60 70 110 120 80 S200 40 250 70'/%3E%3Cpath d='M-10 70 C40 40 80 95 125 62 S200 20 250 50'/%3E%3Cpath d='M-10 50 C45 22 85 78 130 44 S205 2 250 30'/%3E%3Cpath d='M-10 110 C40 82 65 125 115 100 S195 62 250 92'/%3E%3C/g%3E%3C/svg%3E");
+}
+.dark .contours {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='120' viewBox='0 0 240 120'%3E%3Cg fill='none' stroke='%23e6eeec' stroke-opacity='.06' stroke-width='1.2'%3E%3Cpath d='M-10 90 C40 60 70 110 120 80 S200 40 250 70'/%3E%3Cpath d='M-10 70 C40 40 80 95 125 62 S200 20 250 50'/%3E%3Cpath d='M-10 50 C45 22 85 78 130 44 S205 2 250 30'/%3E%3Cpath d='M-10 110 C40 82 65 125 115 100 S195 62 250 92'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.pat-due {
+  background-image: repeating-linear-gradient(135deg, var(--wrong) 0 3px, transparent 3px 7px);
+}
+.pat-learning {
+  background-image: radial-gradient(var(--warn) 1.6px, transparent 1.8px);
+  background-size: 7px 7px;
+}
+
+.maplibregl-ctrl-attrib {
+  font-size: 11px;
+}
+.maplibregl-canvas {
+  cursor: crosshair;
+}
+.browse .maplibregl-canvas {
+  cursor: pointer;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.anim-pop {
+  animation: pop 0.18s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .anim-pop {
+    animation: none;
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "geopowtorki",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "GeoPowtórki – nauka mapy fizycznej świata z powtórkami rozłożonymi w czasie (1 klasa LO)",
+  "author": "Marcin Wyrzykowski",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "data:build": "node --experimental-strip-types scripts/build-data.ts",
+    "data:tiles": "python3 scripts/make_tiles.py"
+  },
+  "dependencies": {
+    "@turf/turf": "^7.4.0",
+    "dexie": "^4.4.6",
+    "dexie-react-hooks": "^4.4.0",
+    "maplibre-gl": "^6.14.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "ts-fsrs": "^5.4.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "fake-indexeddb": "^6.2.6",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vite-plugin-pwa": "^2.0.0",
+    "vitest": "^5.0.5"
+  }
+}

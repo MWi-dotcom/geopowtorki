@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
+.vscode/
+# surowe dane Natural Earth (pobiera scripts/fetch-ne.sh) – nie trzymamy w repo
+.ne
+.ne/
+*.tif
+*.log

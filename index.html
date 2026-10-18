@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#eef2ee" />
+    <meta name="author" content="Marcin Wyrzykowski" />
+    <meta name="copyright" content="© 2026 Marcin Wyrzykowski" />
+    <meta name="description" content="Nauka mapy fizycznej świata z powtórkami rozłożonymi w czasie – dla 1 klasy liceum." />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <title>GeoPowtórki</title>
+    <script>
+      // motyw przed wczytaniem aplikacji – bez „mignięcia” jasnego tła
+      try {
+        var d = matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', d);
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>GeoPowtórki wymagają włączonego JavaScriptu.</noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
