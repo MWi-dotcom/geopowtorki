@@ -42,6 +42,18 @@ const mar = (...n: string[]) => s('mar', ...n);
 const riv = (...n: string[]) => s('riv', ...n);
 const lake = (...n: string[]) => s('lake', ...n);
 
+/** Wysokość w dwóch wersjach: nauczyciela (wzorcowa) i aktualnego pomiaru (też zaliczana jako dokładna). */
+function twoHeights(teacher: number, current: string, currentLabel: string): Partial<Fact> {
+  const n = Number(current.replace(',', '.'));
+  return {
+    display: `${teacher} m n.p.m. (wersja nauczyciela); ${current} m n.p.m. (${currentLabel})`,
+    aliases: [String(n), String(Math.round(n))],
+  };
+}
+/** Tylko pytanie o wysokość dostaje dwie wartości – pytanie o nazwę szczytu zostaje bez zmian. */
+const heightOnly = (facts: Fact[], h: Partial<Fact>, nameAliases: string[]) =>
+  facts.map((f) => (f.id === 'wysokosc' ? { ...f, ...h } : { ...f, aliases: nameAliases }));
+
 /** Tolerancja wysokości: ok. 0,5% (min. 15 m) – „mała tolerancja” z projektu. */
 const heightTol = (h: number) => Math.max(15, Math.round(h * 0.005));
 
@@ -168,7 +180,11 @@ group('europa', 'polwyspy', [
     namePl: 'Azja Mniejsza',
     aliases: ['Anatolia', 'Półwysep Anatolijski'],
     src: reg('ANATOLIA'),
-    note: 'Geograficznie półwysep leży w Azji – w materiale nauczyciela jest wymieniony przy Europie.',
+    alsoIn: ['azja'],
+    note:
+      'Rozległy półwysep na zachodniej granicy Azji (w Turcji), otoczony morzami: Czarnym od północy, Marmara od północnego zachodu, Egejskim od zachodu i Śródziemnym od południa. ' +
+      'Od Europy oddzielają go Morze Marmara oraz cieśniny Bosfor i Dardanele. Ma ok. 0,5 mln km² powierzchni – ok. dwóch trzecich terytorium Turcji. ' +
+      'W materiale nauczyciela wymieniony przy Europie, dlatego jest w partiach Europy i Azji.',
   },
 ]);
 group('europa', 'wyspy', [
@@ -271,10 +287,14 @@ group('azja', 'gory', [
       'Chiny (Tybet) – północne stoki i północna strona Mount Everestu na Wyżynie Tybetańskiej. ' +
       'Pakistan – najbardziej wysunięta na zachód część łańcucha (z masywem Nanga Parbat). ' +
       'Bhutan – w całości w obrębie Himalajów Wschodnich. ' +
-      'Mount Everest: 8848,86 m n.p.m. (pomiar z 2020 r.) – 8848 m po zaokrągleniu.',
+      'Mount Everest: 8848 m n.p.m. (wersja nauczyciela), 8848,86 m n.p.m. (dokładny pomiar Chin i Nepalu z 2020 r.).',
     facts: [
       countries('W jakich państwach leżą Himalaje?', ['Nepal', 'Indie', 'Chiny', 'Pakistan', 'Bhutan']),
-      ...peak('Himalajów (i Ziemi)', 'Mount Everest', 8848, 'Mount Everest', {}, ['Everest', 'Czomolungma']),
+      ...heightOnly(
+        peak('Himalajów (i Ziemi)', 'Mount Everest', 8848, 'Mount Everest'),
+        twoHeights(8848, '8848,86', 'dokładny pomiar z 2020 r.'),
+        ['Everest', 'Czomolungma'],
+      ),
     ],
   },
   { id: 'az-g-poludniowochinskie', namePl: 'Góry Południowochińskie', aliases: ['Nan Ling'], src: reg('Nan Ling Mts.') },
@@ -481,8 +501,12 @@ group('australia', 'gory', [
     id: 'au-g-wododzialowe',
     namePl: 'Wielkie Góry Wododziałowe',
     src: reg('GREAT DIVIDING RANGE'),
-    note: 'Geoscience Australia podaje dla Góry Kościuszki 2228 m n.p.m.; 2230 m (materiał nauczyciela) to wartość zaokrąglona – obie są akceptowane.',
-    facts: peak('Wielkich Gór Wododziałowych (i Australii)', 'Góra Kościuszki', 2230, 'Mount Kosciuszko', {}, ['Kościuszko', 'Mount Kosciuszko', 'Kosciuszko']),
+    note: 'Wysokość Góry Kościuszki: 2230 m n.p.m. (wersja nauczyciela), 2228 m n.p.m. (aktualny pomiar, Geoscience Australia) – obie wartości są zaliczane.',
+    facts: heightOnly(
+      peak('Wielkich Gór Wododziałowych (i Australii)', 'Góra Kościuszki', 2230, 'Mount Kosciuszko'),
+      twoHeights(2230, '2228', 'aktualny pomiar, Geoscience Australia'),
+      ['Kościuszko', 'Mount Kosciuszko', 'Kosciuszko'],
+    ),
   },
 ]);
 group('australia', 'wyzyny', [
@@ -587,10 +611,11 @@ group('ameryka-pn', 'gory', [
     aliases: ['Alaska Range', 'Pasmo Alaska'],
     src: reg('ALASKA RANGE'),
     note:
-      'Wysokość Denali: 6190 m n.p.m. wg pomiaru z 2015 r.; w starszych źródłach 6194 m – obie wartości są zaliczane. W 2025 r. władze federalne USA przywróciły nazwę Mount McKinley; stan Alaska używa nazwy Denali. Obie nazwy są zaliczane.',
-    facts: peak('Gór Alaska (i Ameryki Północnej)', 'Denali', 6190, 'Denali', { display: '6190 m n.p.m. (dawniej 6194 m)', aliases: ['6194'] }, ['McKinley', 'Mount McKinley', 'Mt McKinley']).map((f) =>
-      // display dotyczy tylko pytania o wysokość, nie o nazwę szczytu
-      f.id === 'szczyt' ? { ...f, display: undefined, aliases: ['McKinley', 'Mount McKinley', 'Mt McKinley'] } : f,
+      'Wysokość Denali: 6194 m n.p.m. (wersja nauczyciela), 6190 m n.p.m. (pomiar z 2015 r.) – obie wartości są zaliczane. W 2025 r. władze federalne USA przywróciły nazwę Mount McKinley; stan Alaska używa nazwy Denali. Obie nazwy są zaliczane.',
+    facts: heightOnly(
+      peak('Gór Alaska (i Ameryki Północnej)', 'Denali', 6194, 'Denali'),
+      twoHeights(6194, '6190', 'pomiar z 2015 r.'),
+      ['McKinley', 'Mount McKinley', 'Mt McKinley'],
     ),
   },
   { id: 'np-g-appalachy', namePl: 'Appalachy', src: reg('APPALACHIAN MTS.') },
@@ -661,8 +686,8 @@ group('ameryka-pd', 'gory', [
     id: 'sp-g-andy',
     namePl: 'Andy',
     src: reg('ANDES'),
-    note: 'Wysokość Aconcagui w źródłach: 6961–6962 m n.p.m. (zależnie od pomiaru) – obie wartości mieszczą się w tolerancji.',
-    facts: peak('Andów (i Ameryki Południowej)', 'Aconcagua', 6962, 'Cerro Aconcagua', {}, ['Akonkagua', 'Cerro Aconcagua']),
+    note: 'Wysokość Aconcagui: 6962 m n.p.m. (wersja nauczyciela), 6961 m n.p.m. (nowszy pomiar) – obie wartości są zaliczane.',
+    facts: heightOnly(peak('Andów (i Ameryki Południowej)', 'Aconcagua', 6962, 'Cerro Aconcagua'), twoHeights(6962, '6961', 'nowszy pomiar'), ['Akonkagua', 'Cerro Aconcagua']),
   },
 ]);
 group('ameryka-pd', 'wyzyny', [

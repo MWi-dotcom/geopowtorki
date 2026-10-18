@@ -91,8 +91,8 @@ describe('fakty', () => {
   });
 });
 
-describe('liczby z wartościami alternatywnymi (Denali)', () => {
-  it('6190 i 6194 są dokładne, 6170 – w tolerancji', async () => {
+describe('liczby z wartościami alternatywnymi (wersja nauczyciela + aktualny pomiar)', () => {
+  it('Denali: 6194 i 6190 są dokładne, 6170 – w tolerancji', async () => {
     const { FEATURE_BY_ID } = await import('../src/data/material');
     const f = Object.values(FEATURE_BY_ID).find((x) => x.namePl === 'Góry Alaska')!;
     const h = f.facts.find((x) => x.id === 'wysokosc')!;
@@ -102,5 +102,12 @@ describe('liczby z wartościami alternatywnymi (Denali)', () => {
     const name = f.facts.find((x) => x.id === 'szczyt')!;
     expect(matchFact('Mount McKinley', name).correct).toBe(true);
     expect(name.display).toBeUndefined();
+    expect(h.display).toContain('wersja nauczyciela');
+  });
+  it('Everest: 8848, 8848,86 i 8849 są dokładne', async () => {
+    const { FEATURE_BY_ID } = await import('../src/data/material');
+    const h = FEATURE_BY_ID['az-g-himalaje'].facts.find((x) => x.id === 'wysokosc')!;
+    for (const v of ['8848', '8848,86', '8849']) expect(matchFact(v, h).kind).toBe('exact');
+    expect(h.display).toContain('2020');
   });
 });

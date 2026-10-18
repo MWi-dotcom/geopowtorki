@@ -37,7 +37,7 @@ describe('materiał', () => {
       'af-w-wschodnioafrykanska': 5895,
       'au-g-wododzialowe': 2230,
       'an-g-ellswortha': 4892,
-      'np-g-alaska': 6190, // dawniej 6194 – uznawane jako alias
+      'np-g-alaska': 6194, // aktualny pomiar 6190 – zaliczany jako dokładny
       'az-g-karakorum': 8611,
       'sp-g-andy': 6962,
     });
