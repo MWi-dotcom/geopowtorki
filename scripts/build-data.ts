@@ -30,6 +30,7 @@ const FILES: Record<string, string> = {
   lake: 'ne_10m_lakes',
   ice: 'ne_10m_antarctic_ice_shelves_polys',
   hist: 'ne_10m_lakes_historic',
+  land: 'ne_50m_land',
 };
 
 const layers: Record<string, GeoJSON.Feature[]> = {};
@@ -182,6 +183,24 @@ for (const f of FEATURES) {
     if (g.type === 'Polygon') geom = { type: 'Polygon', coordinates: g.coordinates.filter(okRing) };
     else geom = { type: 'MultiPolygon', coordinates: g.coordinates.map((p) => p.filter(okRing)).filter((p) => p.length > 0) };
   }
+  if (!geom && f.poly) {
+    // kształt ręczny przycięty do linii brzegowej: morza – do wody, reszta – do lądu
+    const ring = [...f.poly, f.poly[0]];
+    const shape = turf.polygon([ring]);
+    const sb = turf.bbox(shape);
+    const lands = layers.land.filter((l) => {
+      const lb = turf.bbox(l);
+      return lb[0] <= sb[2] && lb[2] >= sb[0] && lb[1] <= sb[3] && lb[3] >= sb[1];
+    }) as GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>[];
+    let g: Geo | null = shape.geometry;
+    if (lands.length) {
+      const land = lands.length === 1 ? lands[0] : turf.union(turf.featureCollection(lands));
+      const r = f.category === 'morza' ? turf.difference(turf.featureCollection([shape, land!])) : turf.intersect(turf.featureCollection([shape, land!]));
+      if (r) g = r.geometry;
+    }
+    geom = g;
+    approx = true;
+  }
   if (!geom && f.line) {
     geom = { type: 'LineString', coordinates: f.line };
     approx = true;
@@ -197,7 +216,7 @@ for (const f of FEATURES) {
     continue;
   }
   t = geom.type.includes('Polygon') ? 'area' : geom.type.includes('Line') ? 'line' : 'point';
-  if (f.line || (f.pt && !f.src)) approxList.push(`- **${f.namePl}** (${f.continent}, ${f.category}) – ${f.line ? 'linia wpisana ręcznie' : f.r ? `okrąg r=${f.r} km wokół punktu ${f.pt}` : `punkt ${f.pt}`}`);
+  if (f.line || f.poly || (f.pt && !f.src)) approxList.push(`- **${f.namePl}** (${f.continent}, ${f.category}) – ${f.poly ? 'kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej' : f.line ? 'linia wpisana ręcznie' : f.r ? `okrąg r=${f.r} km wokół punktu ${f.pt}` : `punkt ${f.pt}`}`);
 
   const b0 = smartBbox(geom);
   const size = Math.round(sizeKm(b0));

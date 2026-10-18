@@ -12,6 +12,8 @@
  * Elementy oznaczone przez nauczyciela [do weryfikacji] mają needsVerification
  * i notatkę z wynikiem sprawdzenia (patrz też docs/ROZBIEZNOSCI.md).
  */
+// rozszerzenie .ts – plik czyta też skrypt danych uruchamiany wprost w Node
+import { SHAPES } from './shapes.ts';
 import type { CategoryId, ContinentId, Fact, Feature, GeoSource, NeLayer } from '../core/types';
 
 type Def = Omit<Feature, 'continent' | 'category' | 'aliases' | 'facts' | 'videos' | 'needsVerification'> & {
@@ -113,19 +115,19 @@ group('europa', 'gory', [
 ]);
 group('europa', 'wyzyny', [
   { id: 'eu-w-masyw-centralny', namePl: 'Masyw Centralny', src: reg('Massif Central') },
-  { id: 'eu-w-wolynska', namePl: 'Wyżyna Wołyńska', pt: [25.3, 50.7], r: 90 },
-  { id: 'eu-w-podolska', namePl: 'Wyżyna Podolska', pt: [27.0, 49.2], r: 140 },
+  { id: 'eu-w-wolynska', namePl: 'Wyżyna Wołyńska', poly: SHAPES['eu-w-wolynska'], },
+  { id: 'eu-w-podolska', namePl: 'Wyżyna Podolska', poly: SHAPES['eu-w-podolska'], },
 ]);
 group('europa', 'niziny', [
-  { id: 'eu-n-angielska', namePl: 'Nizina Angielska', pt: [-0.6, 52.3], r: 150 },
-  { id: 'eu-n-francuska', namePl: 'Nizina Francuska', pt: [1.2, 47.4], r: 230 },
-  { id: 'eu-n-niemiecka', namePl: 'Nizina Niemiecka', pt: [9.8, 52.8], r: 190 },
-  { id: 'eu-n-polska', namePl: 'Nizina Polska', aliases: ['Niż Polski'], pt: [19.0, 52.3], r: 220 },
-  { id: 'eu-n-polesie', namePl: 'Polesie', aliases: ['Nizina Poleska'], pt: [27.5, 51.9], r: 170 },
-  { id: 'eu-n-wschodnioeuropejska', namePl: 'Nizina Wschodnioeuropejska', aliases: ['Nizina Rosyjska'], pt: [42.0, 55.0], r: 650 },
+  { id: 'eu-n-angielska', namePl: 'Nizina Angielska', poly: SHAPES['eu-n-angielska'], },
+  { id: 'eu-n-francuska', namePl: 'Nizina Francuska', poly: SHAPES['eu-n-francuska'], },
+  { id: 'eu-n-niemiecka', namePl: 'Nizina Niemiecka', poly: SHAPES['eu-n-niemiecka'], },
+  { id: 'eu-n-polska', namePl: 'Nizina Polska', aliases: ['Niż Polski'], poly: SHAPES['eu-n-polska'], },
+  { id: 'eu-n-polesie', namePl: 'Polesie', aliases: ['Nizina Poleska'], poly: SHAPES['eu-n-polesie'], },
+  { id: 'eu-n-wschodnioeuropejska', namePl: 'Nizina Wschodnioeuropejska', aliases: ['Nizina Rosyjska'], poly: SHAPES['eu-n-wschodnioeuropejska'], },
   { id: 'eu-n-wegierska', namePl: 'Wielka Nizina Węgierska', aliases: ['Nizina Węgierska', 'Alföld'], src: reg('Alföld') },
-  { id: 'eu-n-padanska', namePl: 'Nizina Padańska', pt: [10.5, 45.1], r: 110 },
-  { id: 'eu-n-woloska', namePl: 'Nizina Wołoska', pt: [25.5, 44.2], r: 110 },
+  { id: 'eu-n-padanska', namePl: 'Nizina Padańska', poly: SHAPES['eu-n-padanska'], },
+  { id: 'eu-n-woloska', namePl: 'Nizina Wołoska', poly: SHAPES['eu-n-woloska'], },
   { id: 'eu-n-nadkaspijska', namePl: 'Nizina Nadkaspijska', src: reg('CASPIAN DEPRESSION') },
 ]);
 group('europa', 'rzeki', [
@@ -312,7 +314,7 @@ group('azja', 'wyzyny', [
   { id: 'az-w-pogorze-kazachskie', namePl: 'Pogórze Kazachskie', aliases: ['Wyżyna Kazachska'], src: reg('KAZAKH UPLAND') },
   { id: 'az-w-mongolska', namePl: 'Wyżyna Mongolska', src: reg('MONGOLIAN PLATEAU') },
   { id: 'az-w-tybetanska', namePl: 'Wyżyna Tybetańska', aliases: ['Tybet'], src: reg('PLATEAU OF TIBET') },
-  { id: 'az-w-iranska', namePl: 'Wyżyna Irańska', pt: [57.0, 32.5], r: 550 },
+  { id: 'az-w-iranska', namePl: 'Wyżyna Irańska', poly: SHAPES['az-w-iranska'], },
   { id: 'az-w-dekan', namePl: 'Dekan', aliases: ['Wyżyna Dekan'], src: reg('DECCAN PLATEAU') },
 ]);
 group('azja', 'niziny', [
@@ -330,7 +332,7 @@ group('azja', 'niziny', [
     src: reg('Mesopotamia'),
     facts: [country('W jakim państwie leży Nizina Mezopotamska?', 'Irak')],
   },
-  { id: 'az-n-indusu', namePl: 'Nizina Indusu', pt: [70.5, 28.0], r: 330 },
+  { id: 'az-n-indusu', namePl: 'Nizina Indusu', poly: SHAPES['az-n-indusu'], },
   { id: 'az-n-gangesu', namePl: 'Nizina Gangesu', aliases: ['Nizina Hindustańska'], src: reg('GANGES PLAIN') },
   { id: 'az-n-chinska', namePl: 'Nizina Chińska', aliases: ['Wielka Nizina Chińska'], src: reg('NORTH CHINA PLAIN') },
 ]);
@@ -418,7 +420,7 @@ group('azja', 'morza', [
 group('afryka', 'gory', [
   { id: 'af-g-atlas', namePl: 'Atlas', aliases: ['Góry Atlas'], src: reg('ATLAS MOUNTAINS', 'HAUT ATLAS', 'Moyen Atlas', 'Anti Atlas', 'ATLAS SAHARIEN', 'Atlas Tellien') },
   { id: 'af-g-tibesti', namePl: 'Tibesti', src: reg('TIBESTI MTS.') },
-  { id: 'af-g-przyladkowe', namePl: 'Góry Przylądkowe', pt: [21.0, -33.6], r: 180 },
+  { id: 'af-g-przyladkowe', namePl: 'Góry Przylądkowe', poly: SHAPES['af-g-przyladkowe'], },
   { id: 'af-g-smocze', namePl: 'Góry Smocze', aliases: ['Drakensberg'], src: reg('DRAKENSBERG') },
 ]);
 group('afryka', 'wyzyny', [
@@ -427,14 +429,13 @@ group('afryka', 'wyzyny', [
   {
     id: 'af-w-wschodnioafrykanska',
     namePl: 'Wyżyna Wschodnioafrykańska',
-    pt: [35.5, -3.0],
-    r: 550,
+    poly: SHAPES['af-w-wschodnioafrykanska'],
     facts: peak('Wyżyny Wschodnioafrykańskiej (i Afryki)', 'Kilimandżaro', 5895, 'Mount Kilimanjaro', {}, ['Kilimanjaro', 'Kibo', 'Uhuru']),
   },
 ]);
 group('afryka', 'kotliny', [
-  { id: 'af-k-czadu', namePl: 'Kotlina Czadu', pt: [16.0, 14.0], r: 550, facts: [countries('W jakich państwach leży Kotlina Czadu (wg materiału)?', ['Czad', 'Niger'])] },
-  { id: 'af-k-gornego-nilu', namePl: 'Kotlina Górnego Nilu', pt: [31.0, 8.0], r: 380 },
+  { id: 'af-k-czadu', namePl: 'Kotlina Czadu', poly: SHAPES['af-k-czadu'], facts: [countries('W jakich państwach leży Kotlina Czadu (wg materiału)?', ['Czad', 'Niger'])] },
+  { id: 'af-k-gornego-nilu', namePl: 'Kotlina Górnego Nilu', poly: SHAPES['af-k-gornego-nilu'], },
   {
     id: 'af-k-konga',
     namePl: 'Kotlina Konga',
@@ -541,10 +542,8 @@ group('australia', 'morza', [
   {
     id: 'au-m-fidzi',
     namePl: 'Morze Fidżi',
-    pt: [178.5, -21.5],
-    r: 380,
-    needsVerification: true,
-    note: 'Brak w Natural Earth – zasięg zaznaczony w przybliżeniu (okrąg).',
+    poly: SHAPES['au-m-fidzi'],
+    note: 'Brak w Natural Earth – zasięg narysowany w przybliżeniu.',
   },
   { id: 'au-m-tasmana', namePl: 'Morze Tasmana', src: mar('Tasman Sea') },
   { id: 'au-m-wielka-zatoka', namePl: 'Wielka Zatoka Australijska', src: mar('Great Australian Bight') },
@@ -627,7 +626,7 @@ group('ameryka-pn', 'wyzyny', [
   { id: 'np-w-meksykanska', namePl: 'Wyżyna Meksykańska', src: reg('ALTI-PLANICIE MEXICANA') },
 ]);
 group('ameryka-pn', 'niziny', [
-  { id: 'np-n-hudsonska', namePl: 'Nizina Hudsońska', aliases: ['Nizina Zatoki Hudsona'], pt: [-86.3, 53.6], r: 330 },
+  { id: 'np-n-hudsonska', namePl: 'Nizina Hudsońska', aliases: ['Nizina Zatoki Hudsona'], poly: SHAPES['np-n-hudsonska'], },
   // Natural Earth ma jedną „Coastal Plain” – dzielimy ją na część nad Zatoką Meksykańską i nad Atlantykiem.
   { id: 'np-n-zatokowa', namePl: 'Nizina Zatokowa', aliases: ['Nizina Nadzatokowa'], src: reg('COASTAL PLAIN'), clip: [-105, 15, -84.2, 40] },
   { id: 'np-n-atlantycka', namePl: 'Nizina Atlantycka', aliases: ['Nizina Nadatlantycka'], src: reg('COASTAL PLAIN'), clip: [-84.2, 15, -60, 50] },

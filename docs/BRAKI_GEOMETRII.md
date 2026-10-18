@@ -5,27 +5,27 @@ nieodpowiednie granice. Zostały oznaczone w przybliżeniu (okrąg wokół punkt
 punkt lub linia wpisana ręcznie) – na mapie rysowane są linią przerywaną.
 Plik generuje `npm run data:build`.
 
-- **Wyżyna Wołyńska** (europa, wyzyny) – okrąg r=90 km wokół punktu 25.3,50.7
-- **Wyżyna Podolska** (europa, wyzyny) – okrąg r=140 km wokół punktu 27,49.2
-- **Nizina Angielska** (europa, niziny) – okrąg r=150 km wokół punktu -0.6,52.3
-- **Nizina Francuska** (europa, niziny) – okrąg r=230 km wokół punktu 1.2,47.4
-- **Nizina Niemiecka** (europa, niziny) – okrąg r=190 km wokół punktu 9.8,52.8
-- **Nizina Polska** (europa, niziny) – okrąg r=220 km wokół punktu 19,52.3
-- **Polesie** (europa, niziny) – okrąg r=170 km wokół punktu 27.5,51.9
-- **Nizina Wschodnioeuropejska** (europa, niziny) – okrąg r=650 km wokół punktu 42,55
-- **Nizina Padańska** (europa, niziny) – okrąg r=110 km wokół punktu 10.5,45.1
-- **Nizina Wołoska** (europa, niziny) – okrąg r=110 km wokół punktu 25.5,44.2
-- **Wyżyna Irańska** (azja, wyzyny) – okrąg r=550 km wokół punktu 57,32.5
-- **Nizina Indusu** (azja, niziny) – okrąg r=330 km wokół punktu 70.5,28
-- **Góry Przylądkowe** (afryka, gory) – okrąg r=180 km wokół punktu 21,-33.6
-- **Wyżyna Wschodnioafrykańska** (afryka, wyzyny) – okrąg r=550 km wokół punktu 35.5,-3
-- **Kotlina Czadu** (afryka, kotliny) – okrąg r=550 km wokół punktu 16,14
-- **Kotlina Górnego Nilu** (afryka, kotliny) – okrąg r=380 km wokół punktu 31,8
+- **Wyżyna Wołyńska** (europa, wyzyny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Wyżyna Podolska** (europa, wyzyny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Nizina Angielska** (europa, niziny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Nizina Francuska** (europa, niziny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Nizina Niemiecka** (europa, niziny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Nizina Polska** (europa, niziny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Polesie** (europa, niziny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Nizina Wschodnioeuropejska** (europa, niziny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Nizina Padańska** (europa, niziny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Nizina Wołoska** (europa, niziny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Wyżyna Irańska** (azja, wyzyny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Nizina Indusu** (azja, niziny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Góry Przylądkowe** (afryka, gory) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Wyżyna Wschodnioafrykańska** (afryka, wyzyny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Kotlina Czadu** (afryka, kotliny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Kotlina Górnego Nilu** (afryka, kotliny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
 - **Przylądek Biały** (afryka, przyladki) – punkt 9.857,37.344
 - **Przylądek Hafun** (afryka, przyladki) – punkt 51.27,10.44
 - **Przylądek Almadi** (afryka, przyladki) – punkt -17.53,14.745
-- **Morze Fidżi** (australia, morza) – okrąg r=380 km wokół punktu 178.5,-21.5
-- **Nizina Hudsońska** (ameryka-pn, niziny) – okrąg r=330 km wokół punktu -86.3,53.6
+- **Morze Fidżi** (australia, morza) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
+- **Nizina Hudsońska** (ameryka-pn, niziny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
 - **Paragwaj** (ameryka-pd, rzeki) – linia wpisana ręcznie
 
 ## Obiekty złożone z kilku obiektów Natural Earth (suma)

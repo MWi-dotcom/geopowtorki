@@ -1,33 +1,32 @@
-# Rozbieżności i elementy do weryfikacji w materiale
+# Rozbieżności w materiale i decyzje
 
 Źródło materiału: „Zakres materiału 001” (materiał nauczyciela).
-Zasada: **w aplikacji domyślnie obowiązuje wersja nauczyciela.** Poniżej wynik
-sprawdzenia; fakty, które mogą się różnić od innych źródeł, mają w danych
-`needsVerification: true`, a w aplikacji uczeń widzi przy nich notatkę.
+Poniżej elementy, które budziły wątpliwości, i decyzje podjęte z autorem
+aplikacji (Marcin Wyrzykowski, 18.10.2026).
 
-## Elementy oznaczone przez nauczyciela [do weryfikacji]
+## Rozstrzygnięte
 
-| Obiekt | Wersja nauczyciela | Wynik sprawdzenia | Co robi aplikacja |
-|---|---|---|---|
-| Pamir | leży w Kirgistanie | Pamir leży głównie w **Tadżykistanie**; obejmuje też Kirgistan, Afganistan i Chiny. | Pytanie o państwo przyjmuje „Kirgistan” (wersja nauczyciela), z notatką. |
-| Karakorum | Tadżykistan / Chiny; K2 | Karakorum leży w **Pakistanie, Indiach (Kaszmir) i Chinach** – nie w Tadżykistanie (tam jest Pamir). K2 – zgadza się. | Odpowiedź wg nauczyciela, z notatką. **Warto dopytać nauczyciela – wygląda na pomyłkę.** |
-| Himalaje | Nepal, Bhutan; Mount Everest 8848 m | Himalaje leżą też w Indiach, Chinach i Pakistanie. Wysokość Everestu wg pomiaru Chin i Nepalu z 2020 r.: 8848,86 m – 8848 m jest poprawne po zaokrągleniu. | Akceptowane 8848 m (z tolerancją), notatka o pozostałych państwach. |
-| Góry Alaska | Denali / McKinley 6194 m | 6194 m to dawna wartość; pomiar z 2015 r. podaje ok. 6190 m. W 2025 r. władze federalne USA przywróciły nazwę Mount McKinley, stan Alaska używa nazwy Denali. | Przyjmowane obie nazwy; 6194 m z tolerancją obejmującą 6190 m. |
-| Dunaj | „Buka*” (niejasny zapis) | Nie da się jednoznacznie odczytać. Możliwe, że chodzi o **Bukareszt** – ale Bukareszt **nie leży nad Dunajem** (leży nad Dâmboviţą). | Nie zamieniono na pytanie. **Do wyjaśnienia z nauczycielem.** |
+| Obiekt | Materiał nauczyciela | Decyzja w aplikacji |
+|---|---|---|
+| Dunaj | „Buka*” (niejasny zapis) | Dunaj omija Bukareszt od południa i uchodzi do **Morza Czarnego** – dodane pytanie o ujście, notatka o Bukareszcie. |
+| Karakorum | Tadżykistan / Chiny | **Pakistan, Chiny, Indie** (trzeba wymienić wszystkie). K2 – 8611 m n.p.m. Notatka: drugie najwyższe pasmo świata, 4 ośmiotysięczniki (K2, Gaszerbrum I i II, Broad Peak). |
+| Pamir | Kirgistan | Głównie **Tadżykistan** (zaliczany też Kirgistan); notatka: także Afganistan i Chiny. |
+| Himalaje | Nepal, Bhutan | **Nepal, Indie, Chiny, Pakistan, Bhutan** (trzeba wymienić wszystkie), z opisem udziału każdego państwa. |
+| Mount Everest | 8848 m | Pokazywane obie wartości: 8848 m (wersja nauczyciela) i 8848,86 m (dokładny pomiar z 2020 r.); zaliczane 8848, 8848,86 i 8849. |
+| Denali / McKinley | 6194 m | 6194 m (wersja nauczyciela) i 6190 m (pomiar z 2015 r.) – obie zaliczane; obie nazwy szczytu zaliczane. |
+| Aconcagua | 6962 m | 6962 m (wersja nauczyciela) i 6961 m (nowszy pomiar) – obie zaliczane. |
+| Góra Kościuszki | 2230 m | 2230 m (wersja nauczyciela) i 2228 m (aktualny pomiar, Geoscience Australia) – obie zaliczane. |
+| Azja Mniejsza | przy Europie | W partiach **Europy i Azji**; opis półwyspu (Turcja, morza wokół, Bosfor i Dardanele). |
+| Kordyliery / Góry Skaliste / Góry Nadbrzeżne | osobne pozycje | Pozostają **osobnymi obiektami**. |
 
-## Inne uwagi z weryfikacji (bez zmiany wersji nauczyciela)
+## Pytania „wg materiału” (do ewentualnego sprawdzenia)
 
-- **Góra Kościuszki** – Geoscience Australia podaje 2228 m n.p.m.; 2230 m to wartość zaokrąglona. Obie mieszczą się w tolerancji.
-- **Aconcagua** – w źródłach 6961–6962 m n.p.m., zależnie od pomiaru; obie wartości są akceptowane.
-- **Azja Mniejsza** – w materiale wymieniona przy Europie; geograficznie półwysep leży w Azji. W aplikacji jest w partii „Europa – półwyspy”, z notatką.
-- **Przylądek Biały** – chodzi o północny kraniec Afryki (Tunezja). Uwaga: inny Przylądek Biały (Ras Nawazibu) leży w Mauretanii.
-- **Jezioro Aralskie** – na mapie przerywaną linią zaznaczono dawny zasięg (warstwa „historic lakes” z Natural Earth), żeby było widać, że w dużej mierze wyschło.
+- Kotlina Czadu – Czad, Niger (kotlina obejmuje też m.in. Nigerię i Kamerun).
+- Kotlina Kalahari – Botswana (sięga też do Namibii i RPA).
+- Góry Annamskie – Wietnam (także Laos).
 
-## Obiekty z przybliżoną geometrią
+## Geometrie
 
-Pełna lista obiektów, których brakuje w Natural Earth albo mają tam złe
-granice (oznaczone okręgiem, punktem lub linią wpisaną ręcznie), jest w
-[BRAKI_GEOMETRII.md](BRAKI_GEOMETRII.md). Plik generuje `npm run data:build`.
-Na mapie takie obiekty rysowane są linią przerywaną. Najbardziej warto
-dorysować prawdziwe granice nizin europejskich (Angielska, Francuska,
-Niemiecka, Polska, Padańska, Wołoska) – teraz są to okręgi.
+Obiekty, których brakuje w Natural Earth, mają kształty narysowane ręcznie w
+przybliżeniu (`src/data/shapes.ts`), przycięte do linii brzegowej – lista w
+[BRAKI_GEOMETRII.md](BRAKI_GEOMETRII.md). Na mapie rysowane są linią przerywaną.

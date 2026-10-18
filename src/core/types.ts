@@ -89,6 +89,8 @@ export interface Feature {
   r?: number;
   /** Przycięcie geometrii z Natural Earth do prostokąta [minLon, minLat, maxLon, maxLat]. */
   clip?: [number, number, number, number];
+  /** Kształt narysowany ręcznie (pierścień [lon, lat][]) – przycinany do lądu/wody. */
+  poly?: [number, number][];
   /** Linia wpisana ręcznie [lon, lat][]. */
   line?: [number, number][];
   /** Dodatkowa warstwa „dawny zasięg” (np. Jezioro Aralskie). */
