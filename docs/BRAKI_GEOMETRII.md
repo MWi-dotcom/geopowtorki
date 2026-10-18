@@ -22,8 +22,8 @@ Plik generuje `npm run data:build`.
 - **Kotlina Czadu** (afryka, kotliny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
 - **Kotlina Górnego Nilu** (afryka, kotliny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
 - **Przylądek Biały** (afryka, przyladki) – punkt 9.857,37.344
-- **Przylądek Hafun** (afryka, przyladki) – punkt 51.27,10.44
-- **Przylądek Almadi** (afryka, przyladki) – punkt -17.53,14.745
+- **Przylądek Hafun** (afryka, przyladki) – punkt 51.383,10.45
+- **Przylądek Almadi** (afryka, przyladki) – punkt -17.55,14.733
 - **Morze Fidżi** (australia, morza) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
 - **Nizina Hudsońska** (ameryka-pn, niziny) – kształt narysowany ręcznie (src/data/shapes.ts), przycięty do linii brzegowej
 - **Paragwaj** (ameryka-pd, rzeki) – linia wpisana ręcznie

@@ -473,9 +473,9 @@ group('afryka', 'przyladki', [
     note: 'Północny kraniec Afryki (Tunezja). Uwaga: inny Przylądek Biały (Ras Nawazibu) leży w Mauretanii.',
     facts: [cape('północy', 'Przylądek Biały')],
   },
-  { id: 'af-pr-hafun', namePl: 'Przylądek Hafun', aliases: ['Ras Hafun', 'Hafun'], pt: [51.27, 10.44], facts: [cape('wschodzie', 'Przylądek Hafun')] },
+  { id: 'af-pr-hafun', namePl: 'Przylądek Hafun', aliases: ['Ras Hafun', 'Hafun', 'Raas Xaafuun'], pt: [51.383, 10.45] /* 10°27′N, 51°23′E (Somalia) */, facts: [cape('wschodzie', 'Przylądek Hafun')] },
   { id: 'af-pr-igielny', namePl: 'Przylądek Igielny', aliases: ['Agulhas', 'Igielny'], src: s('cape', 'Cape Agulhas'), facts: [cape('południu', 'Przylądek Igielny')] },
-  { id: 'af-pr-almadi', namePl: 'Przylądek Almadi', aliases: ['Almadies', 'Pointe des Almadies'], pt: [-17.53, 14.745], facts: [cape('zachodzie', 'Przylądek Almadi')] },
+  { id: 'af-pr-almadi', namePl: 'Przylądek Almadi', aliases: ['Almadies', 'Pointe des Almadies'], pt: [-17.55, 14.733] /* 14°44′N, 17°33′W (Senegal) */, facts: [cape('zachodzie', 'Przylądek Almadi')] },
 ]);
 group('afryka', 'wyspy', [
   { id: 'af-wy-kanaryjskie', namePl: 'Wyspy Kanaryjskie', aliases: ['Kanary'], src: reg('ISLAS CANARIAS') },
